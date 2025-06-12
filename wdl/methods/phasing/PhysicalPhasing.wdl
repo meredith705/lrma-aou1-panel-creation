@@ -65,17 +65,17 @@ task ConvertLowerCase {
     command <<<
         set -euxo pipefail
         mkdir -p ~{work_dir}
-        pwd
+        echo pwd
         cp ~{docker_dir}/convert_lower_case.py ~{work_dir}/convert_lower_case.py
         cd ~{work_dir}
-        pwd
-        ls
+        echo pwd
+        echo ls
         python convert_lower_case.py -i ~{vcf} -o ~{prefix}.vcf
-        ls
-        bgzip ~{prefix}.vcf ~{prefix}.vcf.gz
-        ls
+        echo ls
+        bgzip ~{prefix}.vcf #~{prefix}.vcf.gz
+        echo ls
         tabix -p vcf ~{prefix}.vcf.gz
-        ls
+        echo ls
 
     >>>
 
