@@ -64,24 +64,19 @@ task ConvertLowerCase {
 
     command <<<
         set -euxo pipefail
-        mkdir -p ~{work_dir}
-        echo pwd
-        cp ~{docker_dir}/convert_lower_case.py ~{work_dir}/convert_lower_case.py
-        cd ~{work_dir}
-        echo pwd
-        echo ls
+        # copy script here
+        cp ~{docker_dir}/convert_lower_case.py .
+        # run script
         python convert_lower_case.py -i ~{vcf} -o ~{prefix}.vcf
-        echo ls
-        bgzip ~{prefix}.vcf #~{prefix}.vcf.gz
-        echo ls
+        # zip and index output
+        bgzip ~{prefix}.vcf 
         tabix -p vcf ~{prefix}.vcf.gz
-        echo ls
 
     >>>
 
     output {
-        File subset_vcf = "~{work_dir}/~{prefix}.vcf.gz"
-        File subset_tbi = "~{work_dir}/~{prefix}.vcf.gz.tbi"
+        File subset_vcf = "~{prefix}.vcf.gz"
+        File subset_tbi = "~{prefix}.vcf.gz.tbi"
     }
     ###################
     runtime {
